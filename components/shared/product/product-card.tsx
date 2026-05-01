@@ -44,8 +44,6 @@ const ProductCard = ({
     </Link>
   )
 
-
-
   const ProductDetails = () => (
     <div className='flex-1 space-y-2'>
       <p className='font-bold'>{product.brand}</p>
