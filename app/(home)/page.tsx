@@ -1,3 +1,4 @@
+import BrowsingHistoryList from "@/components/shared/browsing-history-list";
 import { HomeCard } from "@/components/shared/home/home-card";
 import { HomeCarousel } from "@/components/shared/home/home-carousel";
 import ProductSlider from "@/components/shared/product/product-slider";
@@ -33,7 +34,7 @@ export default async function HomePage() {
       },
       items: categories.map((category) => ({
         name: category,
-        image: `/images/${toSlug(category)}.jpg`, 
+        image: `/images/${toSlug(category)}.jpg`,
         href: `/search?category=${category}`,
       })),
     },
@@ -64,7 +65,7 @@ export default async function HomePage() {
   ];
 
   const todaysDeals = await getProductsByTag({ tag: "todays-deal" });
-  const bestSellingProducts = await getProductsByTag({ tag : 'best-seller'})
+  const bestSellingProducts = await getProductsByTag({ tag: "best-seller" });
 
   return (
     <>
@@ -82,6 +83,9 @@ export default async function HomePage() {
           products={bestSellingProducts}
           hideDetails
         />
+      </div>
+      <div className="p-4 bg-background">
+        <BrowsingHistoryList />
       </div>
     </>
   );
