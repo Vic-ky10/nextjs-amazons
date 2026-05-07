@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { Button } from '@/components/ui/button'
@@ -9,23 +8,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { useToast } from '@/components/ui/use-toast'
 import useCartStore from '@/hooks/use-cart-store'
 import { OrderItem } from '@/types'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-
-function useToast() {
-  // Minimal fallback toast hook used when '@/hooks/use-toast' cannot be found.
-  // Replace this with your real toast implementation when available.
-  const toast = (opts: any) => {
-    // Basic fallback: log to console; this avoids the missing-module compile error.
-    // opts may contain { description, action, variant } in the current code.
-    // In a real app, wire this to your UI toast system.
-    // eslint-disable-next-line no-console
-    console.log('toast:', opts)
-  }
-  return { toast }
-}
 
 export default function AddToCart({
   item,
@@ -44,26 +31,16 @@ export default function AddToCart({
   return minimal ? (
     <Button
       className='rounded-full w-auto'
-      onClick={() => {
+      onClick={async () => {
         try {
-          addItem(item, 1)
-          toast({
-            description: 'Added to Cart',
-            action: (
-              <Button
-                onClick={() => {
-                  router.push('/cart')
-                }}
-              >
-                Go to Cart
-              </Button>
-            ),
-          })
-        } catch (error: any) {
-          toast({
-            variant: 'destructive',
-            description: error.message,
-          })
+          await addItem(item, 1)
+          toast('Added to cart', `${item.name} is now in your cart.`, 'success')
+        } catch (error) {
+          toast(
+            'Could not add item',
+            error instanceof Error ? error.message : 'Please try again.',
+            'error'
+          )
         }
       }}
     >
@@ -93,12 +70,14 @@ export default function AddToCart({
         onClick={async () => {
           try {
             const itemId = await addItem(item, quantity)
+            toast('Added to cart', `${item.name} is now in your cart.`, 'success')
             router.push(`/cart/${itemId}`)
-          } catch (error: any) {
-            toast({
-              variant: 'destructive',
-              description: error.message,
-            })
+          } catch (error) {
+            toast(
+              'Could not add item',
+              error instanceof Error ? error.message : 'Please try again.',
+              'error'
+            )
           }
         }}
       >
@@ -106,15 +85,17 @@ export default function AddToCart({
       </Button>
       <Button
         variant='secondary'
-        onClick={() => {
+        onClick={async () => {
           try {
-            addItem(item, quantity)
+            await addItem(item, quantity)
+            toast('Added to cart', `${item.name} is ready for checkout.`, 'success')
             router.push(`/checkout`)
-          } catch (error: any) {
-            toast({
-              variant: 'destructive',
-              description: error.message,
-            })
+          } catch (error) {
+            toast(
+              'Could not add item',
+              error instanceof Error ? error.message : 'Please try again.',
+              'error'
+            )
           }
         }}
         className='w-full rounded-full '

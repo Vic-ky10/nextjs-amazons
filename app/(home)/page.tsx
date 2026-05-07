@@ -51,7 +51,7 @@ export default async function HomePage() {
       items: bestSellers,
       link: {
         text: "View All",
-        href: "/search?tag=new-seller",
+        href: "/search?tag=best-seller",
       },
     },
     {
@@ -59,7 +59,7 @@ export default async function HomePage() {
       items: featureds,
       link: {
         text: "Shop Now",
-        href: "/search?tag=new-featured",
+        href: "/search?tag=featured",
       },
     },
   ];

@@ -1,9 +1,8 @@
 import { APP_NAME } from '@/lib/constants'
-import Image from 'next/image'
 import Link from 'next/link'
 import Menu from './menu'
 import { Button } from '@/components/ui/button'
-import { MenuIcon } from 'lucide-react'
+import { MenuIcon, ShoppingBagIcon } from 'lucide-react'
 import data from '@/lib/data'
 import Search from './search'
 
@@ -12,21 +11,18 @@ export default function Header() {
     <header className='bg-black  text-white'>
       <div className='px-2'>
         <div className='flex items-center justify-between'>
-          <div className='flex items-center'>
+          <div className='flex min-w-fit items-center'>
             <Link
               href='/'
-              className='flex items-center header-button font-extrabold text-2xl m-1 '
+              className='flex items-center gap-2 header-button font-extrabold text-xl m-1'
             >
-              <Image
-                src='/icons/logo.svg'
-                width={40}
-                height={40}
-                alt={`${APP_NAME} logo`}
-              />
+              <span className='flex h-9 w-9 items-center justify-center rounded-md bg-primary text-black'>
+                <ShoppingBagIcon className='h-6 w-6' />
+              </span>
               {APP_NAME}
             </Link>
           </div>
-          <div className='hidden md:block flex-1 max-w-xl'>
+          <div className='hidden md:block flex-1 max-w-2xl px-3'>
             <Search />
           </div>
           <Menu />

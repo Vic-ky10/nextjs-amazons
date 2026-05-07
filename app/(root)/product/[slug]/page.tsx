@@ -43,9 +43,6 @@ export default async function ProductDetails(props: {
 
   const product = await getProductBySlug(slug);
 
-  // dynamic import of client component for demo purposes
-  const ToastDemo = (await import('@/components/ui/toast-demo')).default;
-
   const relatedProducts = await getRelatedProductsByCategory({
     category: product.category,
     productId: product._id.toString(),
@@ -55,9 +52,6 @@ export default async function ProductDetails(props: {
   return (
     <div>
       <AddToBrowsingHistory id={product._id.toString()} category={product.category} />
-      <div className="mt-4">
-        <ToastDemo />
-      </div>
       <section>
         <div className="grid grid-cols-1 md:grid-cols-5  ">
           <div className="col-span-2">
