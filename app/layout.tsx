@@ -13,6 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 import { APP_DESCRIPTION, APP_NAME, APP_SLOGAN } from '@/lib/constants'
+import { ToastProvider } from '@/components/ui/toast-provider'
 export const metadata: Metadata = {
   title: {
     template: `%s | ${APP_NAME}`,
@@ -31,7 +32,9 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <ToastProvider>{children}</ToastProvider>
+      </body>
     </html>
   );
 }
