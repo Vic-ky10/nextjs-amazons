@@ -1,14 +1,31 @@
 "use server"
 
 import Coupon from "../db/models/coupon.model"
+import { connectToDatabase } from "../db"
 
+type CouponValidationResult =
+  | {
+      success: false
+      message: string
+    }
+  | {
+      success: true
+      message: string
+      coupon: {
+        code: string
+        discount: number
+        type: "percentage" | "fixed"
+      }
+      discountAmount: number
+      finalTotal: number
+    }
 
 export async function validateCoupon(
   code: string,
   cartTotal: number
-) {
+): Promise<CouponValidationResult> {
 
-  await dbConnect()
+  await connectToDatabase()
 
   // Find coupon
   const coupon = await Coupon.findOne({
@@ -83,8 +100,4 @@ export async function validateCoupon(
 
     finalTotal,
   }
-}
-
-function dbConnect() {
-    throw new Error("Function not implemented.")
 }

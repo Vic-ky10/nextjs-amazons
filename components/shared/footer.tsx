@@ -7,11 +7,11 @@ import { APP_NAME } from '@/lib/constants'
 
 export default function Footer() {
   return (
-    <footer className='bg-zinc-950 text-white underline-link'>
+    <footer className='bg-fuchsia-950 text-white underline-link'>
       <div className='w-full'>
         <Button
           variant='ghost'
-          className='w-full rounded-none bg-zinc-900 text-white hover:bg-zinc-800'
+          className='w-full rounded-none bg-fuchsia-900 text-white hover:bg-fuchsia-800'
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
           <ChevronUp className='mr-2 h-4 w-4' />

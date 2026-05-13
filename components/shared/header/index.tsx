@@ -9,7 +9,7 @@ import ThemeToggle from "../theme-toggle";
 
 export default function Header() {
   return (
-    <header className="bg-zinc-950 text-white">
+    <header className="bg-fuchsia-950 text-white">
       <div className="px-2">
         <div className="flex items-center justify-between">
           <div className="flex min-w-fit items-center">
@@ -32,7 +32,7 @@ export default function Header() {
           <Search />
         </div>
       </div>
-      <div className="flex items-center px-3 mb-[1px] bg-zinc-900">
+      <div className="flex items-center px-3 mb-[1px] bg-fuchsia-900">
         <Button
           variant="ghost"
           className="header-button flex items-center gap-1 text-base [&_svg]:size-6"
