@@ -7,11 +7,11 @@ import { APP_NAME } from '@/lib/constants'
 
 export default function Footer() {
   return (
-    <footer className='bg-black text-white underline-link'>
+    <footer className='bg-zinc-950 text-white underline-link'>
       <div className='w-full'>
         <Button
           variant='ghost'
-          className='w-full rounded-none bg-gray-800'
+          className='w-full rounded-none bg-zinc-900 text-white hover:bg-zinc-800'
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
           <ChevronUp className='mr-2 h-4 w-4' />
@@ -27,7 +27,7 @@ export default function Footer() {
         <div className='flex justify-center text-sm'>
           <p>Copyright 2000-2026, {APP_NAME}, Inc. or its affiliates</p>
         </div>
-        <div className='mt-8 flex justify-center text-sm text-gray-400'>
+        <div className='mt-8 flex justify-center text-sm text-white/60'>
           123, Main Street, Anytown, CA, Zip 12345 | +1 (123) 456-7890
         </div>
       </div>

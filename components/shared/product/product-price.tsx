@@ -36,7 +36,7 @@ const ProductPrice = ({
         <span className='bg-red-700 rounded-sm p-1 text-white text-sm font-semibold'>
           {discountPercent}% Off
         </span>
-        <span className='text-red-700 text-xs font-bold'>
+        <span className='text-destructive text-xs font-bold'>
           Limited time deal
         </span>
       </div>
@@ -59,7 +59,7 @@ const ProductPrice = ({
   ) : (
     <div className=''>
       <div className='flex justify-center gap-3'>
-        <div className='text-3xl text-orange-700'>-{discountPercent}%</div>
+        <div className='text-3xl text-destructive'>-{discountPercent}%</div>
         <div className={cn('text-3xl', className)}>
           <span className='text-xs align-super'>$</span>
           {intValue}

@@ -78,3 +78,17 @@ export const CartSchema = z.object({
   deliveryDateIndex: z.optional(z.number()),
   expectedDeliveryDate: z.optional(z.date()),
 })
+
+export const ReviewInputSchema = z.object({
+  productId: z.string().min(1, 'Product is required'),
+  slug: z.string().min(1, 'Product slug is required'),
+  reviewerName: z.string().min(2, 'Name must be at least 2 characters'),
+  reviewerEmail: z.string().email('Enter a valid email address'),
+  rating: z.coerce
+    .number()
+    .int('Rating must be a whole number')
+    .min(1, 'Rating is required')
+    .max(5, 'Rating must be at most 5'),
+  title: z.string().min(3, 'Title must be at least 3 characters'),
+  comment: z.string().min(10, 'Review must be at least 10 characters'),
+})

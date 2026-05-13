@@ -1,56 +1,67 @@
-import { APP_NAME } from '@/lib/constants'
-import Link from 'next/link'
-import Menu from './menu'
-import { Button } from '@/components/ui/button'
-import { MenuIcon, ShoppingBagIcon } from 'lucide-react'
-import data from '@/lib/data'
-import Search from './search'
+import { APP_NAME } from "@/lib/constants";
+import Link from "next/link";
+import Menu from "./menu";
+import { Button } from "@/components/ui/button";
+import { MenuIcon, ShoppingBagIcon } from "lucide-react";
+import data from "@/lib/data";
+import Search from "./search";
+import ThemeToggle from "../theme-toggle";
 
 export default function Header() {
   return (
-    <header className='bg-black  text-white'>
-      <div className='px-2'>
-        <div className='flex items-center justify-between'>
-          <div className='flex min-w-fit items-center'>
+    <header className="bg-zinc-950 text-white">
+      <div className="px-2">
+        <div className="flex items-center justify-between">
+          <div className="flex min-w-fit items-center">
             <Link
-              href='/'
-              className='flex items-center gap-2 header-button font-extrabold text-xl m-1'
+              href="/"
+              className="flex items-center gap-2 header-button font-extrabold text-xl m-1"
             >
-              <span className='flex h-9 w-9 items-center justify-center rounded-md bg-primary text-black'>
-                <ShoppingBagIcon className='h-6 w-6' />
+              <span className="flex h-9 w-9 items-center justify-center rounded-md bg-primary text-primary-foreground">
+                <ShoppingBagIcon className="h-6 w-6" />
               </span>
               {APP_NAME}
             </Link>
           </div>
-          <div className='hidden md:block flex-1 max-w-2xl px-3'>
+          <div className="hidden md:block flex-1 max-w-2xl px-3">
             <Search />
           </div>
           <Menu />
         </div>
-        <div className='md:hidden block py-2'>
+        <div className="md:hidden block py-2">
           <Search />
         </div>
       </div>
-      <div className='flex items-center px-3 mb-[1px]  bg-gray-800'>
+      <div className="flex items-center px-3 mb-[1px] bg-zinc-900">
         <Button
-          variant='ghost'
-          className='header-button flex items-center gap-1 text-base [&_svg]:size-6'
+          variant="ghost"
+          className="header-button flex items-center gap-1 text-base [&_svg]:size-6"
         >
           <MenuIcon />
           All
         </Button>
-        <div className='flex items-center flex-wrap gap-3 overflow-hidden   max-h-[42px]'>
+
+        <div className="flex items-center flex-wrap gap-3 overflow-hidden   max-h-[42px]">
           {data.headerMenus.map((menu) => (
             <Link
               href={menu.href}
               key={menu.href}
-              className='header-button !p-2'
+              className="header-button !p-2"
             >
               {menu.name}
             </Link>
           ))}
+          <Link
+            href="/wishlist"
+            className="header-button !p-2"
+            aria-label="Wishlist"
+          > WishList
+          </Link>
+
+          <ThemeToggle />
+          
         </div>
       </div>
     </header>
-  )
+  );
 }

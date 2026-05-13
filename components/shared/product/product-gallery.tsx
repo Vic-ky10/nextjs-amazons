@@ -4,6 +4,8 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
+
+
 export default function ProductGallery({ images }: { images: string[] }) {
   const [selectedImage, setSelectedImage] = useState(0)
   return (
@@ -18,10 +20,10 @@ export default function ProductGallery({ images }: { images: string[] }) {
             onMouseOver={() => {
               setSelectedImage(index)
             }}
-            className={`bg-white rounded-lg overflow-hidden ${
+            className={`bg-card rounded-lg overflow-hidden ${
               selectedImage === index
-                ? 'ring-2 ring-blue-500'
-                : 'ring-1 ring-gray-300'
+                ? 'ring-2 ring-primary'
+                : 'ring-1 ring-border'
             }`}
           >
             <Image

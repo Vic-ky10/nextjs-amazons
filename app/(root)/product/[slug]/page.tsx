@@ -3,8 +3,10 @@ import {
   getProductBySlug,
   getRelatedProductsByCategory,
 } from "@/lib/actions/product.actions";
+import { getReviewsByProductId } from "@/lib/actions/review.actions";
 
 import SelectVariant from "@/components/shared/product/select-variant";
+import ProductReviews from "@/components/shared/product/product-reviews";
 import ProductPrice from "@/components/shared/product/product-price";
 import ProductGallery from "@/components/shared/product/product-gallery";
 import { Separator } from "@/components/ui/separator";
@@ -48,6 +50,7 @@ export default async function ProductDetails(props: {
     productId: product._id.toString(),
     page: Number(page || "1"),
   });
+  const reviews = await getReviewsByProductId(product._id.toString());
 
   return (
     <div>
@@ -60,7 +63,7 @@ export default async function ProductDetails(props: {
 
           <div className="flex w-full flex-col gap-2 md:p-5 col-span-2">
             <div className="flex flex-col gap-3">
-              <p className="p-medium-16 rounded-full bg-grey-500/10   text-grey-500">
+              <p className="p-medium-16 rounded-full bg-muted px-3 py-1 text-muted-foreground">
                 Brand {product.brand} {product.category}
               </p>
               <h1 className="font-bold text-lg lg:text-xl">{product.name}</h1>
@@ -90,7 +93,7 @@ export default async function ProductDetails(props: {
             </div>
             <Separator className="my-2" />
             <div className="flex flex-col gap-2">
-              <p className="p-bold-20 text-grey-600">Description:</p>
+              <p className="p-bold-20 text-foreground">Description:</p>
               <p className="p-medium-16 lg:p-regular-18">
                 {product.description}
               </p>
@@ -107,7 +110,7 @@ export default async function ProductDetails(props: {
                   </div>
                 )}
                 {product.countInStock !== 0 ? (
-                  <div className="text-green-700 text-xl">In Stock</div>
+                  <div className="text-green-600 dark:text-green-400 text-xl">In Stock</div>
                 ) : (
                   <div className="text-destructive text-xl">Out of Stock</div>
                 )}
@@ -138,6 +141,13 @@ export default async function ProductDetails(props: {
         </div>
       </section>
 
+      <section className="mt-10">
+        <ProductReviews
+          productId={product._id.toString()}
+          slug={product.slug}
+          reviews={reviews}
+        />
+      </section>
       <section className="mt-10">
         <ProductSlider
           products={relatedProducts.data}

@@ -5,6 +5,7 @@ import { getAllCategories, getAllProducts } from '@/lib/actions/product.actions'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 
+
 const sortOptions = [
   { value: 'best-selling', name: 'Best selling' },
   { value: 'newest', name: 'Newest' },

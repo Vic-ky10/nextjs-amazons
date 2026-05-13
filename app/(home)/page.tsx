@@ -74,7 +74,7 @@ export default async function HomePage() {
         <HomeCard cards={cards} />
         <Card className="w-full rounded-none">
           <CardContent className="p-4 items-center gap-3">
-            <ProductSlider title={"Today's Deals"} products={todaysDeals} />
+            <ProductSlider title={""} products={todaysDeals} />
           </CardContent>
         </Card>
 
