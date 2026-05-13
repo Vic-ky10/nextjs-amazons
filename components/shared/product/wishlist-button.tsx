@@ -2,6 +2,7 @@
 
 import { Heart } from "lucide-react";
 import { useWishlistStore } from "@/hooks/use-wishlist-store";
+import useIsMounted from "@/hooks/use-is-mounted";
 
 type WishListButtonProps = {
   product: {
@@ -15,8 +16,9 @@ type WishListButtonProps = {
 
 const WishlistButton = ({ product }: WishListButtonProps) => {
   const { addItem, removeItem, isInWishlist } = useWishlistStore();
+  const isMounted = useIsMounted();
 
-  const exists = isInWishlist(product._id);
+  const exists = isMounted && isInWishlist(product._id);
 
   const handleWishList = () => {
     if (exists) {
@@ -31,7 +33,7 @@ const WishlistButton = ({ product }: WishListButtonProps) => {
       className="p-2 rounded-full bg-card text-card-foreground shadow-md ring-1 ring-border hover:scale-110 transition"
     >
       <Heart
-        className={` w-5 h-5 transition ${exists ? " fill-red-500 text-red-500 " : "text-muted-foreground "}  `}
+        className={`w-5 h-5 transition ${exists ? "fill-red-500 text-red-500" : "text-muted-foreground"}`}
       />
     </button>
   );
