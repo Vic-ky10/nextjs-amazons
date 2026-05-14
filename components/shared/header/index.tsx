@@ -56,7 +56,6 @@ export default function Header() {
             className="header-button !p-2"
             aria-label="Wishlist"
           >
-          
             WishList
           </Link>
 

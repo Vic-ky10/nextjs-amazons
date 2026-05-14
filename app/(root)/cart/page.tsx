@@ -99,7 +99,7 @@ export default function CartPage() {
     setDiscountAmount(0);
     setFinalTotal(itemsPrice);
   };
-
+        
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-4  md:gap-4">

@@ -132,26 +132,3 @@ export default function CreateCouponPage() {
   );
 }
 
-// <form onSubmit={handleSubmit} className="space-y-4">
-//   <Input name="code" placeholder="Coupon code" required />
-
-//   <select name="type" required>
-//     <option value="percentage"> Percentage</option>
-//     <option value="fixed"> Fixed</option>
-//   </select>
-
-//   <Input name="discount " type="number" placeholder="Discount" required />
-//   <Input
-//     name="minOrderAmounnt "
-//     type="number"
-//     placeholder="Minimum order "
-//   />
-//   <Input name="expiryDate" type="date" required />
-
-//   {message && <p> {message}</p>}
-
-//   <Button type="submit" disabled={isPending}>
-//     {isPending ? "Creating.." : "Create Coupon"}
-//   </Button>
-
-// </form>

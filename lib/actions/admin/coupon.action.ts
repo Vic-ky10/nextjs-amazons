@@ -31,6 +31,7 @@ export async function createCoupon(
   }
 
   // Create coupon
+  
   await Coupon.create({
     code: data.code.toUpperCase(),
 
