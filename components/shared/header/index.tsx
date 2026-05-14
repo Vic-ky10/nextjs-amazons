@@ -55,11 +55,16 @@ export default function Header() {
             href="/wishlist"
             className="header-button !p-2"
             aria-label="Wishlist"
-          > WishList
+          >
+          
+            WishList
           </Link>
 
           <ThemeToggle />
-          
+
+          <div>
+            <Link href="/admin/coupons/create">Coupons</Link>
+          </div>
         </div>
       </div>
     </header>
