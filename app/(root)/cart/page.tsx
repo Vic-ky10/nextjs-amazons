@@ -231,15 +231,17 @@ export default function CartPage() {
                     <div className="flex gap-2">
                       <Input
                         type="text"
+                        
                         placeholder="Coupon code"
                         value={couponCode}
                         onChange={(e) => {
                           setCouponCode(e.target.value.toUpperCase());
-                          setCouponError("");
+                          setCouponError(""); 
+                              
                         }}
                         aria-invalid={Boolean(couponError)}
                         disabled={couponLoading || Boolean(appliedCoupon)}
-                        className="uppercase"
+                        className="uppercase w-full rounded-lg border border-input bg-transparent px-2.5 py-1 text-base focus-visible:ring-2 focus-visible:ring-ring/10 focus-visible:border-ring"
                       />
                       <Button
                         type="submit"

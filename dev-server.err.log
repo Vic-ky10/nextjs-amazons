@@ -1,0 +1,8 @@
+⨯ Another next dev server is already running.
+
+- Local:        http://localhost:3000
+- PID:          1536
+- Dir:          C:\Users\vigne\OneDrive\Desktop\New folder (2)\Next.js\nextjs-amazons
+- Log:          .next\dev\logs\next-development.log
+
+Run taskkill /PID 1536 /F to stop it.

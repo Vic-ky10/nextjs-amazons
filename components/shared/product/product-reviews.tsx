@@ -40,6 +40,8 @@ export default function ProductReviews({
     initialState
   )
   const [rating, setRating] = useState(5)
+  const [reviewerName, setReviewerName] = useState(profile.name)
+  const [reviewerEmail, setReviewerEmail] = useState(profile.email)
   const [title, setTitle] = useState('')
   const [comment, setComment] = useState('')
 
@@ -74,14 +76,16 @@ export default function ProductReviews({
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-1">
                 <Input
                   name="reviewerName"
-                  defaultValue={profile.name}
+                  value={reviewerName}
+                  onChange={(event) => setReviewerName(event.target.value)}
                   placeholder="Your name"
                   required
                 />
                 <Input
                   name="reviewerEmail"
                   type="email"
-                  defaultValue={profile.email}
+                  value={reviewerEmail}
+                  onChange={(event) => setReviewerEmail(event.target.value)}
                   placeholder="Your email"
                   required
                 />

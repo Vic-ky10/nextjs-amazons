@@ -18,7 +18,7 @@ import { APP_NAME } from '@/lib/constants'
 import { CheckCircle2Icon, XIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useState } from 'react'
 
 const emptyShipping = {
   fullName: '',
@@ -38,16 +38,12 @@ export default function CheckoutPage() {
     cart: { items, itemsPrice, shippingPrice, taxPrice, totalPrice },
   } = useCartStore()
 
-  useEffect(() => {
-    if (!isConnected) return
-
-    setShipping((current) => ({
-      ...current,
-      fullName: current.fullName || profile.name,
-      phone: current.phone || profile.phone,
-      address: current.address || profile.address,
-    }))
-  }, [isConnected, profile])
+  const resolvedShipping = {
+    ...shipping,
+    fullName: shipping.fullName || (isConnected ? profile.name : ''),
+    phone: shipping.phone || (isConnected ? profile.phone : ''),
+    address: shipping.address || (isConnected ? profile.address : ''),
+  }
 
   const updateShipping = (field: keyof typeof emptyShipping, value: string) => {
     setShipping((current) => ({ ...current, [field]: value }))
@@ -58,7 +54,9 @@ export default function CheckoutPage() {
   const handlePlaceOrder = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    const hasMissingField = Object.values(shipping).some((value) => !value.trim())
+    const hasMissingField = Object.values(resolvedShipping).some(
+      (value) => !value.trim()
+    )
 
     if (hasMissingField) {
       toast(
@@ -77,7 +75,7 @@ export default function CheckoutPage() {
     setOrderCompleted(true)
     toast(
       'Order placed',
-      `Delivery to ${shipping.address}, ${shipping.city} - ${shipping.postalCode}.`,
+      `Delivery to ${resolvedShipping.address}, ${resolvedShipping.city} - ${resolvedShipping.postalCode}.`,
       'success'
     )
   }
@@ -120,21 +118,21 @@ export default function CheckoutPage() {
             <Input
               required
               placeholder='Full name'
-              value={shipping.fullName}
+              value={resolvedShipping.fullName}
               onChange={(event) => updateShipping('fullName', event.target.value)}
             />
             <Input
               required
               type='tel'
               placeholder='Phone number'
-              value={shipping.phone}
+              value={resolvedShipping.phone}
               onChange={(event) => updateShipping('phone', event.target.value)}
             />
             <Input
               required
               className='md:col-span-2'
               placeholder='Address line'
-              value={shipping.address}
+              value={resolvedShipping.address}
               onChange={(event) => updateShipping('address', event.target.value)}
             />
             <Input
@@ -218,8 +216,9 @@ export default function CheckoutPage() {
                 Order completed
               </div>
               <div>
-                Delivery for {shipping.fullName} at {shipping.address},{' '}
-                {shipping.city} - {shipping.postalCode}.
+                Delivery for {resolvedShipping.fullName} at{' '}
+                {resolvedShipping.address}, {resolvedShipping.city} -{' '}
+                {resolvedShipping.postalCode}.
               </div>
             </div>
           )}
@@ -251,16 +250,21 @@ export default function CheckoutPage() {
             <div className='mt-4 space-y-3 rounded-lg border p-4 text-sm'>
               <div>
                 <div className='font-medium'>Customer</div>
-                <div className='text-muted-foreground'>{shipping.fullName}</div>
+                <div className='text-muted-foreground'>
+                  {resolvedShipping.fullName}
+                </div>
               </div>
               <div>
                 <div className='font-medium'>Phone</div>
-                <div className='text-muted-foreground'>{shipping.phone}</div>
+                <div className='text-muted-foreground'>
+                  {resolvedShipping.phone}
+                </div>
               </div>
               <div>
                 <div className='font-medium'>Delivery address</div>
                 <div className='text-muted-foreground'>
-                  {shipping.address}, {shipping.city} - {shipping.postalCode}
+                  {resolvedShipping.address}, {resolvedShipping.city} -{' '}
+                  {resolvedShipping.postalCode}
                 </div>
               </div>
               <div className='flex justify-between border-t pt-3 font-bold'>
