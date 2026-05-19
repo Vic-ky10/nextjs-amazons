@@ -16,7 +16,6 @@ import ProductPrice from "./product-price";
 import ImageHover from "./image-hover";
 import AddToCart from "./add-to-cart";
 import WishlistButton from "./wishlist-button";
-import ProductQuickView from "./product-quick-view";
 
 type ProductCardProps = {
   product: IProduct;
@@ -80,9 +79,7 @@ const ProductImage = ({ product }: { product: IProduct }) => {
           )}
         </div>
       </Link>
-      <div className="absolute inset-x-0 bottom-3 z-20 hidden justify-center opacity-0 transition-opacity group-hover:opacity-100 md:flex">
-        <ProductQuickView product={product} />
-      </div>
+      {/* Quick view removed */}
     </div>
   );
 };

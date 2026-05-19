@@ -28,13 +28,16 @@ function formatTimeLeft(milliseconds: number) {
 
 export default function FlashSale({ products }: { products: IProduct[] }) {
   const saleEnd = useMemo(() => getTodaysSaleEnd(), [])
-  const [timeLeft, setTimeLeft] = useState(() =>
-    formatTimeLeft(saleEnd.getTime() - Date.now())
-  )
+  const [timeLeft, setTimeLeft] = useState('00:00:00')
 
   useEffect(() => {
-    const intervalId = window.setInterval(() => {
+    const updateTimeLeft = () => {
       setTimeLeft(formatTimeLeft(saleEnd.getTime() - Date.now()))
+    }
+
+    updateTimeLeft()
+    const intervalId = window.setInterval(() => {
+      updateTimeLeft()
     }, 1000)
 
     return () => window.clearInterval(intervalId)

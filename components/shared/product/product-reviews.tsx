@@ -25,6 +25,13 @@ const initialState: ReviewActionState = {
   message: '',
 }
 
+const REVIEW_DATE_FORMATTER = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  timeZone: 'UTC',
+})
+
 export default function ProductReviews({
   productId,
   slug,
@@ -166,7 +173,7 @@ export default function ProductReviews({
                   <p className="text-sm leading-6">{review.comment}</p>
                   <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
                     <span>
-                      {new Date(review.updatedAt).toLocaleDateString()}
+                      {REVIEW_DATE_FORMATTER.format(new Date(review.updatedAt))}
                     </span>
                     <Button
                       type="button"
