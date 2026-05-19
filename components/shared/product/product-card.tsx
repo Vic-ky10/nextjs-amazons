@@ -11,11 +11,12 @@ import {
 import { IProduct } from "@/lib/db/models/product.model";
 
 import Rating from "./rating";
-import { formatNumber, generateId, round2 } from "@/lib/utils";
+import { cn, formatNumber, generateId, round2 } from "@/lib/utils";
 import ProductPrice from "./product-price";
 import ImageHover from "./image-hover";
 import AddToCart from "./add-to-cart";
 import WishlistButton from "./wishlist-button";
+import ProductQuickView from "./product-quick-view";
 
 type ProductCardProps = {
   product: IProduct;
@@ -27,9 +28,25 @@ type ProductCardProps = {
 const ProductImage = ({ product }: { product: IProduct }) => {
   const primaryImage = product.images[0];
   const hoverImage = product.images[1];
+  const discount =
+    product.listPrice > product.price
+      ? Math.round(((product.listPrice - product.price) / product.listPrice) * 100)
+      : 0;
 
   return (
-    <div className="relative">
+    <div className="group relative overflow-hidden rounded-md bg-muted/40">
+      <div className="absolute left-2 top-2 z-20 flex flex-col gap-1">
+        {discount > 0 && (
+          <span className="rounded-sm bg-pink-600 px-2 py-1 text-xs font-bold text-white shadow-sm">
+            {discount}% off
+          </span>
+        )}
+        {product.tags.includes("new-arrival") && (
+          <span className="rounded-sm bg-emerald-600 px-2 py-1 text-xs font-bold text-white shadow-sm">
+            New
+          </span>
+        )}
+      </div>
       <div className="absolute top-2 right-2 z-20">
         <WishlistButton
           product={{
@@ -63,16 +80,33 @@ const ProductImage = ({ product }: { product: IProduct }) => {
           )}
         </div>
       </Link>
+      <div className="absolute inset-x-0 bottom-3 z-20 hidden justify-center opacity-0 transition-opacity group-hover:opacity-100 md:flex">
+        <ProductQuickView product={product} />
+      </div>
     </div>
   );
 };
 
 const ProductDetails = ({ product }: { product: IProduct }) => (
   <div className="flex-1 space-y-2">
-    <p className="font-bold">{product.brand}</p>
+    <div className="flex items-center justify-between gap-2">
+      <p className="truncate text-sm font-bold text-muted-foreground">
+        {product.brand}
+      </p>
+      <span
+        className={cn(
+          "shrink-0 rounded-sm px-2 py-0.5 text-xs font-semibold",
+          product.countInStock > 0
+            ? "bg-emerald-50 text-emerald-700"
+            : "bg-muted text-muted-foreground"
+        )}
+      >
+        {product.countInStock > 0 ? "In stock" : "Sold out"}
+      </span>
+    </div>
     <Link
       href={`/product/${product.slug}`}
-      className="overflow-hidden text-ellipsis"
+      className="block min-h-10 overflow-hidden text-ellipsis text-left font-medium transition-colors hover:text-pink-600"
       style={{
         display: "-webkit-box",
         WebkitLineClamp: 2,
@@ -81,9 +115,11 @@ const ProductDetails = ({ product }: { product: IProduct }) => (
     >
       {product.name}
     </Link>
-    <div className="flex gap-2 justify-center">
+    <div className="flex items-center gap-2">
       <Rating rating={product.avgRating} />
-      <span>({formatNumber(product.numReviews)})</span>
+      <span className="text-sm text-muted-foreground">
+        ({formatNumber(product.numReviews)})
+      </span>
     </div>
 
     <ProductPrice
@@ -96,7 +132,7 @@ const ProductDetails = ({ product }: { product: IProduct }) => (
 );
 
 const AddButton = ({ product }: { product: IProduct }) => (
-  <div className="w-full text-center">
+  <div className="w-full">
     <AddToCart
       minimal
       item={{
@@ -127,7 +163,7 @@ const ProductCard = ({
       <ProductImage product={product} />
       {!hideDetails && (
         <>
-          <div className="p-3 flex-1 text-center">
+          <div className="p-3 flex-1">
             <ProductDetails product={product} />
           </div>
           {!hideAddToCart && <AddButton product={product} />}
@@ -135,13 +171,13 @@ const ProductCard = ({
       )}
     </div>
   ) : (
-    <Card className="flex flex-col  ">
+    <Card className="flex flex-col overflow-hidden transition-shadow hover:shadow-md">
       <CardHeader className="p-3">
         <ProductImage product={product} />
       </CardHeader>
       {!hideDetails && (
         <>
-          <CardContent className="p-3 flex-1  text-center">
+          <CardContent className="p-3 flex-1">
             <ProductDetails product={product} />
           </CardContent>
           <CardFooter className="p-3">
