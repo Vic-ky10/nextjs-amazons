@@ -29,7 +29,7 @@ export async function generateMetadata(props: {
     title: product.name,
     description: product.description,
   };
-}
+} 
 
 export default async function ProductDetails(props: {
   params: Promise<{ slug: string }>;

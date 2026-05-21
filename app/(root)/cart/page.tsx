@@ -14,12 +14,19 @@ import {
 } from "@/components/ui/select";
 import useCartStore from "@/hooks/use-cart-store";
 import { APP_NAME, FREE_SHIPPING_MIN_PRICE } from "@/lib/constants";
+import { formatCurrency } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { validateCoupon } from "@/lib/actions/coupon.actions";
 import { CheckCircle2, Tag, XCircle } from "lucide-react";
+
+type AppliedCoupon = {
+  code: string;
+  discount: number;
+  type: "percentage" | "fixed";
+};
 
 export default function CartPage() {
   const {
@@ -38,16 +45,22 @@ export default function CartPage() {
 
   const [finalTotal, setFinalTotal] = React.useState(itemsPrice);
 
-  const [appliedCoupon, setAppliedCoupon] = React.useState("");
+  const [appliedCoupon, setAppliedCoupon] =
+    React.useState<AppliedCoupon | null>(null);
 
   const itemCount = items.reduce((acc, item) => acc + item.quantity, 0);
   const hasDiscount = discountAmount > 0;
+  const discountLabel = appliedCoupon
+    ? appliedCoupon.type === "percentage"
+      ? `${appliedCoupon.discount}% off`
+      : `${formatCurrency(appliedCoupon.discount)} off`
+    : "";
 
   React.useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setCouponCode("");
     setCouponError("");
-    setAppliedCoupon("");
+    setAppliedCoupon(null);
     setDiscountAmount(0);
     setFinalTotal(itemsPrice);
   }, [itemsPrice]);
@@ -79,7 +92,7 @@ export default function CartPage() {
         return;
       }
 
-      setAppliedCoupon(result.coupon.code);
+      setAppliedCoupon(result.coupon);
 
       setDiscountAmount(result.discountAmount);
 
@@ -95,7 +108,7 @@ export default function CartPage() {
   const handleRemoveCoupon = () => {
     setCouponCode("");
     setCouponError("");
-    setAppliedCoupon("");
+    setAppliedCoupon(null);
     setDiscountAmount(0);
     setFinalTotal(itemsPrice);
   };
@@ -260,10 +273,15 @@ export default function CartPage() {
 
                     {appliedCoupon && (
                       <div className="flex items-center justify-between gap-3 rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-900/60 dark:bg-green-950/30 dark:text-green-300">
-                        <span className="flex items-center gap-2">
-                          <CheckCircle2 className="size-4" />
-                          {appliedCoupon} applied
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 className="size-4 shrink-0" />
+                          <span>
+                            {appliedCoupon.code} applied
+                            <span className="block text-xs font-medium">
+                              {discountLabel}
+                            </span>
+                          </span>
+                        </div>
                         <Button
                           type="button"
                           variant="ghost"
@@ -308,14 +326,23 @@ export default function CartPage() {
                     </div>
                     {hasDiscount && (
                       <div className="flex items-center justify-between text-green-700 dark:text-green-400">
-                        <span>Coupon discount</span>
-                        <span>- ${discountAmount.toFixed(2)}</span>
+                        <span>
+                          Coupon discount
+                          {discountLabel && (
+                            <span className="block text-xs text-green-600 dark:text-green-300">
+                              {discountLabel}
+                            </span>
+                          )}
+                        </span>
+                        <span>
+                          - <ProductPrice price={discountAmount} plain />
+                        </span>
                       </div>
                     )}
                     <Separator />
                     <div className="flex items-center justify-between text-base font-bold">
                       <span>Total</span>
-                      <span>${finalTotal.toFixed(2)}</span>
+                      <ProductPrice price={finalTotal} plain />
                     </div>
                   </div>
 

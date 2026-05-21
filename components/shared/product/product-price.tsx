@@ -4,7 +4,7 @@ import { cn, formatCurrency } from '@/lib/utils'
 const ProductPrice = ({
   price,
   className,
-  listPrice = 0,  
+  listPrice = 0,
   isDeal = false,
   forListing = true,
   plain = false,
@@ -17,18 +17,20 @@ const ProductPrice = ({
   plain?: boolean
 }) => {
   const discountPercent = Math.round(100 - (price / listPrice) * 100)
-  const stringValue = price.toString()
+  const stringValue = price.toFixed(2)
   const [intValue, floatValue] = stringValue.includes('.')
     ? stringValue.split('.')
     : [stringValue, '']
+  const formattedIntValue = Number(intValue).toLocaleString('en-IN')
+  const decimalValue = floatValue ? `.${floatValue}` : ''
 
   return plain ? (
     formatCurrency(price)
   ) : listPrice == 0 ? (
     <div className={cn('text-3xl', className)}>
-      <span className='text-xs align-super'>$</span>
-      {intValue}
-      <span className='text-xs align-super'>{floatValue}</span>
+      <span className='text-xs align-super'>&#8377;</span>
+      {formattedIntValue}
+      <span className='text-xs align-super'>{decimalValue}</span>
     </div>
   ) : isDeal ? (
     <div className='space-y-2'>
@@ -46,9 +48,9 @@ const ProductPrice = ({
         } items-center gap-2`}
       >
         <div className={cn('text-3xl', className)}>
-          <span className='text-xs align-super'>$</span>
-          {intValue}
-          <span className='text-xs align-super'>{floatValue}</span>
+          <span className='text-xs align-super'>&#8377;</span>
+          {formattedIntValue}
+          <span className='text-xs align-super'>{decimalValue}</span>
         </div>
         <div className='text-muted-foreground text-xs py-2'>
           Was:{' '}
@@ -61,9 +63,9 @@ const ProductPrice = ({
       <div className='flex justify-center gap-3'>
         <div className='text-3xl text-destructive'>-{discountPercent}%</div>
         <div className={cn('text-3xl', className)}>
-          <span className='text-xs align-super'>$</span>
-          {intValue}
-          <span className='text-xs align-super'>{floatValue}</span>
+          <span className='text-xs align-super'>&#8377;</span>
+          {formattedIntValue}
+          <span className='text-xs align-super'>{decimalValue}</span>
         </div>
       </div>
       <div className='text-muted-foreground text-xs py-2'>

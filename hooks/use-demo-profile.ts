@@ -15,7 +15,7 @@ export type DemoProfile = {
 export const defaultDemoProfile: DemoProfile = {
   name: 'Guest shopper',
   email: 'guest@example.com',
-  phone: '',
+  phone: '+91 ',
   address: '',
 }
 

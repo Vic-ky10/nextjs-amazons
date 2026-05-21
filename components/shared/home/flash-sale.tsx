@@ -46,11 +46,14 @@ export default function FlashSale({ products }: { products: IProduct[] }) {
   if (products.length === 0) return null
 
   return (
-    <section className='bg-background'>
-      <div className='flex flex-col gap-4 p-4'>
+    <section className='bg-background p-4'>
+      <div className='flex flex-col gap-4'>
         <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
           <div>
-            <div className='flex items-center gap-2 text-xl font-bold'>
+            <p className='text-sm font-semibold uppercase tracking-wide text-pink-600'>
+              Today only
+            </p>
+            <div className='mt-1 flex items-center gap-2 text-2xl font-bold leading-tight'>
               <Flame className='h-6 w-6 text-pink-600' />
               Flash Sale
             </div>

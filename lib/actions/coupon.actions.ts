@@ -2,6 +2,7 @@
 
 import Coupon from "../db/models/coupon.model"
 import { connectToDatabase } from "../db"
+import { formatCurrency } from "../utils"
 
 type CouponValidationResult =
   | {
@@ -62,7 +63,7 @@ export async function validateCoupon(
   if (cartTotal < coupon.minOrderAmount) {
     return {
       success: false,
-      message: `Minimum order should be $${coupon.minOrderAmount}`,
+      message: `Minimum order should be ${formatCurrency(coupon.minOrderAmount)}`,
     }
   }
 

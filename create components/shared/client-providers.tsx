@@ -1,9 +1,9 @@
 'use client'
-import useCartSidebar from '@/create hooks/use-cart-sidebar'
+import { useCartSidebarControls } from '@/create hooks/use-cart-sidebar'
 import { ToastProvider } from '@/components/ui/toast-provider'
 import React from 'react'
 import CartSidebar from './cart-sidebar'
-
+import SideCartToggle from './side-cart/side-cart-toggle'
 
 
 export default function ClientProviders({
@@ -11,14 +11,14 @@ export default function ClientProviders({
 }: {
   children: React.ReactNode
 }) {
-  const isCartSidebarOpen = useCartSidebar()
+  const { canShowCartSidebar, isCartSidebarOpen } = useCartSidebarControls()
 
   return (
     <ToastProvider>
-      {isCartSidebarOpen ? (
+      {canShowCartSidebar ? (
         <div className='flex min-h-screen'>
           <div className='flex-1 overflow-hidden'>{children}</div>
-          <CartSidebar />
+          {isCartSidebarOpen ? <CartSidebar /> : <SideCartToggle />}
         </div>
       ) : (
         <div>{children}</div>

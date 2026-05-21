@@ -12,6 +12,15 @@ import data from "@/lib/data";
 import { toSlug } from "@/lib/utils";
 
 export default async function HomePage() {
+  const fillProducts = <T,>(items: T[], minimumCount: number) => {
+    if (items.length === 0) return items;
+
+    return Array.from(
+      { length: Math.max(items.length, minimumCount) },
+      (_, index) => items[index % items.length],
+    );
+  };
+
   const categories = (await getAllCategories()).slice(0, 4);
   const newArrivals = await getProductsForCard({
     tag: "new-arrival",
@@ -72,12 +81,14 @@ export default async function HomePage() {
       <HomeCarousel items={data.carousels} />
       <div className="md:p-4 md:space-y-4 bg-border">
         <HomeCard cards={cards} />
-        <FlashSale products={todaysDeals} />
+        <FlashSale products={fillProducts(todaysDeals, 6)} />
 
         <ProductSlider
           title="Best Selling Products"
+          subtitle="Top-rated picks arranged to keep the carousel full while your catalog grows."
           products={bestSellingProducts}
           hideDetails
+          minimumCount={18}
         />
       </div>
       <div className="p-4 bg-background">

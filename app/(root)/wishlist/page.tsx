@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { useWishlistStore } from "@/hooks/use-wishlist-store";
 import useIsMounted from "@/hooks/use-is-mounted";
+import ProductPrice from "@/components/shared/product/product-price";
 
 const WishlistPage = () => {
   const { items, removeItem } = useWishlistStore();
@@ -70,7 +71,9 @@ const WishlistPage = () => {
               <div className="space-y-2">
                 <h2 className="font-semibold line-clamp-2">{item.name}</h2>
 
-                <p className="text-lg font-bold">${item.price}</p>
+                <p className="text-lg font-bold">
+                  <ProductPrice price={item.price} plain />
+                </p>
 
                 {/* Remove Button */}
                 <button

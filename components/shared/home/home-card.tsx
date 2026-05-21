@@ -16,41 +16,59 @@ type CardItem = {
 
 export function HomeCard({ cards }: { cards: CardItem[] }) {
   return (
-    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-4'>
-      {cards.map((card) => (
-        <Card key={card.title} className='rounded-none flex flex-col'>
-          <CardContent className='p-4 flex-1'>
-            <h3 className='text-xl font-bold mb-4'>{card.title}</h3>
-            <div className='grid grid-cols-2 gap-4'>
-              {card.items.map((item) => (
+    <section className='bg-background p-4'>
+      <div className='mb-5'>
+        <p className='text-sm font-semibold uppercase tracking-wide text-pink-600'>
+          Shop smarter
+        </p>
+        <h2 className='text-2xl font-bold leading-tight'>
+          Featured store picks
+        </h2>
+        <p className='mt-1 text-sm text-muted-foreground'>
+          Browse popular categories, new arrivals, and hand-picked product groups.
+        </p>
+      </div>
+      <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4'>
+        {cards.map((card) => (
+          <Card key={card.title} className='flex flex-col overflow-hidden'>
+            <CardContent className='flex-1 p-4'>
+              <h3 className='mb-4 text-lg font-bold'>{card.title}</h3>
+              <div className='grid grid-cols-2 gap-3'>
+                {card.items.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className='group flex flex-col rounded-md border bg-background p-2 transition-colors hover:border-pink-500'
+                  >
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      className='mx-auto aspect-square h-auto max-w-full object-scale-down transition-transform group-hover:scale-105'
+                      height={120}
+                      width={120}
+                    />
+                    <p className='overflow-hidden text-ellipsis whitespace-nowrap text-center text-sm'>
+                      {item.name}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            </CardContent>
+            {card.link && (
+              <CardFooter className='pt-0'>
                 <Link
-                  key={item.name}
-                  href={item.href}
-                  className='flex flex-col'
+                  href={card.link.href}
+                  className='text-sm font-semibold text-pink-600 hover:underline'
                 >
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    className='aspect-square object-scale-down max-w-full h-auto mx-auto'
-                    height={120}
-                    width={120}
-                  />
-                  <p className='text-center text-sm whitespace-nowrap overflow-hidden text-ellipsis'>
-                    {item.name}
-                  </p>
+                  {card.link.text}
                 </Link>
-              ))}
-            </div>
-          </CardContent>
-          {card.link && (
-            <CardFooter>
-              <Link href={card.link.href} className='mt-4 block'>
-                {card.link.text}
-              </Link>
-            </CardFooter>
-          )}
-        </Card>
-      ))}
-    </div>
+              </CardFooter>
+            )}
+          </Card>
+        ))}
+      </div>
+    </section>
   )
 }
+
+
