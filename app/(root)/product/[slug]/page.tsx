@@ -44,6 +44,13 @@ export default async function ProductDetails(props: {
   const { slug } = params;
 
   const product = await getProductBySlug(slug);
+  const availableColors = product.colors.slice(0, 1);
+  const selectedColor = availableColors.includes(color)
+    ? color
+    : availableColors[0] || "";
+  const selectedSize = product.sizes.includes(size)
+    ? size
+    : product.sizes[0] || "";
 
   const relatedProducts = await getRelatedProductsByCategory({
     category: product.category,
@@ -87,8 +94,8 @@ export default async function ProductDetails(props: {
             <div>
               <SelectVariant
                 product={product}
-                size={size || product.sizes[0]}
-                color={color || product.colors[0]}
+                size={selectedSize}
+                color={selectedColor}
               />
             </div>
             <Separator className="my-2" />
@@ -127,8 +134,8 @@ export default async function ProductDetails(props: {
                           price: round2(product.price),
                           quantity: 1,
                           image: product.images[0],
-                          size: size || product.sizes[0],
-                          color: color || product.colors[0],
+                          size: selectedSize,
+                          color: selectedColor,
                         }}
                       />
                     </div>

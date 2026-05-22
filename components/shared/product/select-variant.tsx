@@ -11,15 +11,18 @@ export default function SelectVariant({
   color: string
   size: string
 }) {
-  const selectedColor = color || product.colors[0]
+  const availableColors = product.colors.slice(0, 1)
+  const selectedColor = availableColors.includes(color)
+    ? color
+    : availableColors[0] || ''
   const selectedSize = size || product.sizes[0]
 
   return (
     <>
-      {product.colors.length > 0 && (
+      {availableColors.length > 0 && (
         <div className='space-x-2 space-y-2'>
           <div>Color:</div>
-          {product.colors.map((x: string) => (
+          {availableColors.map((x: string) => (
             <Button
               nativeButton={false}
               render={
