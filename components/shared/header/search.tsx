@@ -5,12 +5,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { SearchIcon } from 'lucide-react'
 import { Input } from '@/components/ui/input'
+import { formatCurrency } from '@/lib/utils'
 
 type SearchSuggestion = {
   name: string
   slug: string
   image?: string
   brand?: string
+  price: number
 }
 
 export default function Search() {
@@ -111,15 +113,20 @@ export default function Search() {
                   />
                 )}
               </span>
-              <span className='min-w-0'>
-                <span className='block truncate font-medium'>
-                  {suggestion.name}
-                </span>
-                {suggestion.brand && (
-                  <span className='block truncate text-xs text-muted-foreground'>
-                    {suggestion.brand}
+              <span className='flex min-w-0 flex-1 items-start justify-between gap-3'>
+                <span className='min-w-0'>
+                  <span className='block truncate font-medium'>
+                    {suggestion.name}
                   </span>
-                )}
+                  {suggestion.brand && (
+                    <span className='block truncate text-xs text-muted-foreground'>
+                      {suggestion.brand}
+                    </span>
+                  )}
+                </span>
+                <span className='shrink-0 whitespace-nowrap font-semibold text-pink-600 dark:text-pink-400'>
+                  {formatCurrency(suggestion.price)}
+                </span>
               </span>
             </Link>
           ))}

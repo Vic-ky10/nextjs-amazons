@@ -25,6 +25,7 @@ export async function GET(request: NextRequest) {
       slug: 1,
       images: 1,
       brand: 1,
+      price: 1,
     }
   )
     .sort({ numSales: 'desc' })
@@ -37,6 +38,7 @@ export async function GET(request: NextRequest) {
       slug: product.slug,
       image: product.images?.[0],
       brand: product.brand,
+      price: product.price,
     }))
   )
 }
