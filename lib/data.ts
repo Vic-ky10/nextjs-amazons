@@ -7,7 +7,7 @@ const products: IProductInput[] = [
     name: 'Nike Mens Slim-fit Long-Sleeve T-Shirt',
     slug: toSlug('Nike Mens Slim-fit Long-Sleeve T-Shirt'),
     category: 'T-Shirts',
-    images: ['/images/p11-1.jpg', '/images/p11-2.jpg'],
+    images: ['/images/p11-1.png', '/images/p11-red.png'],
     tags: ['new-arrival'],
     isPublished: true,
     price: 21.8,
@@ -28,6 +28,16 @@ const products: IProductInput[] = [
       'Made with chemicals safer for human health and the environment',
     sizes: ['S', 'M', 'L', 'XL', 'XXL'],
     colors: ['Green', 'Red', 'Black'],
+    colorImages: [
+      {
+        color: 'Green',
+        images: ['/images/p11-1.png'],
+      },
+      {
+        color: 'Red',
+        images: ['/images/p11-red.png'],
+      },  
+    ],
 
     reviews: [],
   },
@@ -38,8 +48,8 @@ const products: IProductInput[] = [
     images: [
       '/images/p12-1.jpg',
       '/images/p12-2.jpg',
-      '/images/p12-3.jpg',
-      '/images/p12-4.jpg',
+      '/images/p12-red.jpg',
+      '/images/p12-black.jpg',
     ],
     tags: ['featured'],
     isPublished: true,
@@ -62,6 +72,20 @@ const products: IProductInput[] = [
 
     sizes: ['S', 'M', 'L', 'XL', 'XXL'],
     colors: ['Yellow', 'Red', 'Black'],
+    colorImages: [
+      {
+        color: 'Yellow',
+        images: ['/images/p12-1.jpg', '/images/p12-2.jpg'],
+      },
+      {
+        color: 'Red',
+        images: ['/images/p12-red.jpg'],
+      },
+      {
+        color: 'Black',
+        images: ['/images/p12-black.jpg'],
+      },
+    ],
 
     reviews: [],
   },
@@ -70,7 +94,7 @@ const products: IProductInput[] = [
     slug: toSlug('Jerzees Men Long-Sleeve T-Shirt'),
     category: 'T-Shirts',
     brand: 'Jerzees',
-    images: ['/images/p13-1.jpg', '/images/p13-2.jpg'],
+    images: ['/images/p13-1.png', '/images/p13-2.png'],
     tags: ['best-seller'],
     isPublished: true,
     price: 13.86,
@@ -89,7 +113,17 @@ const products: IProductInput[] = [
     description:
       'The Jerzees long sleeve t-shirt is made with dri-power technology that wicks away moisture to keep you cool and dry throughout your day. We also included a rib collar and cuffs for added durability, and a lay-flat collar for comfort. If you are looking for a versatile shirt that you can wear throughout the transitioning seasons, then look no further.',
     sizes: ['XL', 'XXL'],
-    colors: ['Green', 'White'],
+    colors: ['Green', 'Pink'],
+    colorImages: [
+      {
+        color: 'Green',
+        images: ['/images/p13-1.png'],
+      },
+      {
+        color: 'Pink',
+        images: ['/images/p13-2.png'],
+      },
+    ],
 
     reviews: [],
   },

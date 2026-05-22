@@ -23,6 +23,19 @@ const productSchema = new Schema<IProduct>(
       required: true,
     },
     images: [String],
+    colorImages: [
+      {
+        color: {
+          type: String,
+          required: true,
+        },
+        images: {
+          type: [String],
+          required: true,
+          default: [],
+        },
+      },
+    ],
     brand: {
       type: String,
       required: true,

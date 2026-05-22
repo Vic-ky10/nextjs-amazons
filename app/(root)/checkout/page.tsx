@@ -15,7 +15,15 @@ import { useToast } from '@/components/ui/use-toast'
 import { useDemoProfile } from '@/hooks/use-demo-profile'
 import useCartStore from '@/hooks/use-cart-store'
 import { APP_NAME } from '@/lib/constants'
-import { CheckCircle2Icon, XIcon } from 'lucide-react'
+import {
+  Building2,
+  CheckCircle2Icon,
+  Home,
+  MapPin,
+  Phone,
+  UserRound,
+  XIcon,
+} from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FormEvent, useState } from 'react'
@@ -47,6 +55,17 @@ export default function CheckoutPage() {
 
   const updateShipping = (field: keyof typeof emptyShipping, value: string) => {
     setShipping((current) => ({ ...current, [field]: value }))
+    setOrderCompleted(false)
+    setIsConfirmOpen(false)
+  }
+
+  const useSavedProfile = () => {
+    setShipping((current) => ({
+      ...current,
+      fullName: profile.name,
+      phone: profile.phone,
+      address: profile.address,
+    }))
     setOrderCompleted(false)
     setIsConfirmOpen(false)
   }
@@ -107,48 +126,139 @@ export default function CheckoutPage() {
       className='grid grid-cols-1 gap-4 lg:grid-cols-3'
     >
       <div className='space-y-4 lg:col-span-2'>
-        <Card className='rounded-none'>
-          <CardHeader>
-            <CardTitle>Shipping details</CardTitle>
-            <CardDescription>
-              Enter where this order should be delivered.
-            </CardDescription>
+        <Card className='overflow-hidden rounded-lg border-border'>
+          <CardHeader className='border-b bg-muted/40'>
+            <div className='flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between'>
+              <div className='flex gap-3'>
+                <div className='flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-pink-600 text-white'>
+                  <MapPin className='h-5 w-5' />
+                </div>
+                <div>
+                  <CardTitle>Shipping details</CardTitle>
+                  <CardDescription>
+                    Enter where this order should be delivered.
+                  </CardDescription>
+                </div>
+              </div>
+              <div className='flex items-center gap-2'>
+                {isConnected && (
+                  <div className='rounded-full border border-green-200 bg-green-50 px-3 py-1 text-xs font-semibold text-green-800'>
+                    Profile connected
+                  </div>
+                )}
+                {isConnected && (
+                  <Button
+                    type='button'
+                    variant='outline'
+                    size='sm'
+                    onClick={useSavedProfile}
+                  >
+                    Use saved
+                  </Button>
+                )}
+              </div>
+            </div>
           </CardHeader>
-          <CardContent className='grid grid-cols-1 gap-3 md:grid-cols-2'>
-            <Input
-              required
-              placeholder='Full name'
-              value={resolvedShipping.fullName}
-              onChange={(event) => updateShipping('fullName', event.target.value)}
-            />
-            <Input
-              required
-              type='tel'
-              placeholder='Phone number'
-              value={resolvedShipping.phone}
-              onChange={(event) => updateShipping('phone', event.target.value)}
-            />
-            <Input
-              required
-              className='md:col-span-2'
-              placeholder='Address line'
-              value={resolvedShipping.address}
-              onChange={(event) => updateShipping('address', event.target.value)}
-            />
-            <Input
-              required
-              placeholder='City'
-              value={shipping.city}
-              onChange={(event) => updateShipping('city', event.target.value)}
-            />
-            <Input
-              required
-              placeholder='Postal code'
-              value={shipping.postalCode}
-              onChange={(event) =>
-                updateShipping('postalCode', event.target.value)
-              }
-            />
+          <CardContent className='space-y-5 p-5'>
+            <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+              <label className='space-y-1.5 text-sm font-medium'>
+                Full name
+                <div className='relative'>
+                  <UserRound className='absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
+                  <Input
+                    required
+                    className='h-10 pl-9'
+                    placeholder='Full name'
+                    value={resolvedShipping.fullName}
+                    onChange={(event) =>
+                      updateShipping('fullName', event.target.value)
+                    }
+                  />
+                </div>
+              </label>
+              <label className='space-y-1.5 text-sm font-medium'>
+                Phone number
+                <div className='relative'>
+                  <Phone className='absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
+                  <Input
+                    required
+                    type='tel'
+                    className='h-10 pl-9'
+                    placeholder='Phone number'
+                    value={resolvedShipping.phone}
+                    onChange={(event) =>
+                      updateShipping('phone', event.target.value)
+                    }
+                  />
+                </div>
+              </label>
+              <label className='space-y-1.5 text-sm font-medium md:col-span-2'>
+                Address line
+                <div className='relative'>
+                  <Home className='absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
+                  <Input
+                    required
+                    className='h-10 pl-9'
+                    placeholder='House number, street, area'
+                    value={resolvedShipping.address}
+                    onChange={(event) =>
+                      updateShipping('address', event.target.value)
+                    }
+                  />
+                </div>
+              </label>
+              <label className='space-y-1.5 text-sm font-medium'>
+                City
+                <div className='relative'>
+                  <Building2 className='absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
+                  <Input
+                    required
+                    className='h-10 pl-9'
+                    placeholder='City'
+                    value={shipping.city}
+                    onChange={(event) =>
+                      updateShipping('city', event.target.value)
+                    }
+                  />
+                </div>
+              </label>
+              <label className='space-y-1.5 text-sm font-medium'>
+                Postal code
+                <div className='relative'>
+                  <MapPin className='absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
+                  <Input
+                    required
+                    className='h-10 pl-9'
+                    placeholder='Postal code'
+                    value={shipping.postalCode}
+                    onChange={(event) =>
+                      updateShipping('postalCode', event.target.value)
+                    }
+                  />
+                </div>
+              </label>
+            </div>
+
+            <div className='grid gap-3 rounded-lg border bg-background p-3 text-sm sm:grid-cols-3'>
+              <div>
+                <div className='text-xs font-medium uppercase text-muted-foreground'>
+                  Delivery type
+                </div>
+                <div className='mt-1 font-semibold'>Standard</div>
+              </div>
+              <div>
+                <div className='text-xs font-medium uppercase text-muted-foreground'>
+                  Payment
+                </div>
+                <div className='mt-1 font-semibold'>Pay on delivery</div>
+              </div>
+              <div>
+                <div className='text-xs font-medium uppercase text-muted-foreground'>
+                  Contact
+                </div>
+                <div className='mt-1 font-semibold'>Phone required</div>
+              </div>
+            </div>
           </CardContent>
         </Card>
 

@@ -44,10 +44,20 @@ export default async function ProductDetails(props: {
   const { slug } = params;
 
   const product = await getProductBySlug(slug);
-  const availableColors = product.colors.slice(0, 1);
+  const colorVariants = product.colorImages ?? [];
+  const availableColors =
+    colorVariants.length > 0
+      ? colorVariants.map((variant) => variant.color)
+      : product.colors.slice(0, 1);
   const selectedColor = availableColors.includes(color)
     ? color
     : availableColors[0] || "";
+  const selectedColorVariant = colorVariants.find(
+    (variant) => variant.color === selectedColor
+  );
+  const selectedImages = selectedColorVariant?.images.length
+    ? selectedColorVariant.images
+    : product.images;
   const selectedSize = product.sizes.includes(size)
     ? size
     : product.sizes[0] || "";
@@ -65,7 +75,7 @@ export default async function ProductDetails(props: {
       <section>
         <div className="grid grid-cols-1 md:grid-cols-5  ">
           <div className="col-span-2">
-            <ProductGallery images={product.images} />
+            <ProductGallery key={selectedImages.join("|")} images={selectedImages} />
           </div>
 
           <div className="flex w-full flex-col gap-2 md:p-5 col-span-2">
@@ -133,7 +143,7 @@ export default async function ProductDetails(props: {
                           category: product.category,
                           price: round2(product.price),
                           quantity: 1,
-                          image: product.images[0],
+                          image: selectedImages[0],
                           size: selectedSize,
                           color: selectedColor,
                         }}

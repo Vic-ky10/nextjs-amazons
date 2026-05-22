@@ -5,6 +5,7 @@ import Image from 'next/image'
 
 export default function ProductGallery({ images }: { images: string[] }) {
   const [selectedImage, setSelectedImage] = useState(0)
+
   return (
     <div className='flex gap-2'>
       <div className='flex flex-col gap-2 mt-8'>

@@ -11,7 +11,11 @@ export default function SelectVariant({
   color: string
   size: string
 }) {
-  const availableColors = product.colors.slice(0, 1)
+  const colorVariants = product.colorImages ?? []
+  const availableColors =
+    colorVariants.length > 0
+      ? colorVariants.map((variant) => variant.color)
+      : product.colors.slice(0, 1)
   const selectedColor = availableColors.includes(color)
     ? color
     : availableColors[0] || ''
